@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>User List</title>
+</head>
+<body>
+	<button><a th:href="@{/user/add}" th:text="#{user.add}"></a></button>
+	<form th:action="@{/user/list}" method="get">
+	
+		<input type="text" name = "name" placeholder="Tim ten... " th:value="${searchDTO.name}">
+		<input type="text" name = "username" placeholder="Tim username..." th:value="${searchDTO.username}">		
+			
+		<!--  <input type="text" name = "currentPage" placeholder="Nhap trang..." th:value="${searchDTO.currentPage}">  -->
+	
+		<label for = "size">Số bản ghi trên 1 trang: </label>
+		<select name = "size" id = "size">
+			<option th:selected="${searchDTO.size == 5}" value="5">5</option>
+			<option th:selected="${searchDTO.size == 10}" value="10">10</option>
+		</select>
+			
+		<label for = "sortField">Thuộc tính để sắp xếp</label>
+		<select name = "sortField" id = "sortField" >
+			<option th:selected="${searchDTO.sortField == 'id'}" value="id">id</option>
+			<option th:selected="${searchDTO.sortField == 'name'}" value="name">name</option>
+			<option th:selected="${searchDTO.sortField == 'age'}" value="age">age</option>
+			<option th:selected="${searchDTO.sortField == 'username'}" value="username">username</option>
+		</select>
+		
+		<button type="submit">Search</button>
+	</form>
+	<table border="1" style="width: 100%">
+		<thead>
+			<th>Id</th>
+		    <th th:text="#{user.name}"></th>
+		    <th th:text="#{user.age}"></th>
+		    <th th:text="#{user.avatar}"></th>
+		    <th th:text="#{function.edit}"></th>
+		    <th th:text="#{function.delete}"></th>
+		</thead>
+		  <tbody>
+		  	 <tr th:each="user: ${pageDTO}">
+		  	 	<td th:text="${user.id}"></td>
+		  	 	<td th:text="${user.name}"></td>
+		  	 	<td th:text="${user.age}"></td>
+		  	 	<td >
+		  	 		<img alt="" th:src="@{'/user/showfile?filename=' + ${user.fileURL}}" width="50px">
+		  	 	</td>
+		  	 	<td><a th:href="@{'/user/edit?id=' + ${user.id}}" th:text="#{function.edit}"></a></td>
+		  	 	<td><a th:href="@{'/user/delete?id=' + ${user.id}}" th:text="#{function.delete}"></a></td>
+		  	 </tr>
+		  </tbody>
+	</table>
+	<div class="footer" style="display: flex;  margin-top: 15px; align-items: center; justify-content: space-between;">
+		<div style="margin-top: 15px">
+			 	Tổng <span th:text="${totalElements}"></span> bản ghi trong <span th:text="${totalPages}"></span> trang
+		</div>
+		<div>
+			
+		</div>
+		<div>
+			<button th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+            	<a th:href="@{'/user/list?currentPage=' + ${pageNumber} + '&size=' + ${searchDTO.size}
+			+ '&name=' + ${searchDTO.name} + '&username=' + ${searchDTO.username} + '&sortField=' + ${searchDTO.sortField}}" 
+            	th:text="${pageNumber + 1}">
+            	
+            	</a>
+        	</button>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Create User</title>
+</head>
+<body>
+	<form th:action="@{/user/add}" method="post" enctype="multipart/form-data" th:object="${user}">
+		
+		<div>
+			<label th:text="#{user.name}"></label>
+			<input type="text" th:field="*{name}">
+			<p  th:errors="*{name}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.age}"></label>
+			<input type="text" th:field="*{age}">
+			<p  th:errors="*{age}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.username}"></label>
+			<input type="text" th:field="*{username}">
+			<p  th:errors="*{username}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.password}"></label>
+			<input type="password" th:field="*{password}">
+			<p  th:errors="*{password}"></p>
+		</div>
+		<div>
+	 	  	<label th:text="#{user.avatar}"></label>
+	 	  	<input type="file" name="file" accept="image/*">
+	 	 </div>
+		<div>
+			<button type="submit" th:text="#{function.submit}"></button>
+		</div>
+	</form>
+</body>
+</html>

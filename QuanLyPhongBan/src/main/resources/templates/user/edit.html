@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title>Edit User</title>
+</head>
+<body>
+	<form th:action="@{/user/edit}" method="post" enctype="multipart/form-data" th:object="${user}">
+		<div>
+			<label>ID:</label>
+			<input type="text" th:field="*{id}" readonly="readonly" >
+		</div>
+		<div>
+			<label th:text="#{user.name}"></label>
+			<input type="text" th:field="*{name}">
+			<p  th:errors="*{name}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.age}"></label>
+			<input type="text" th:field="*{age}">
+			<p  th:errors="*{age}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.username}"></label>
+			<input type="text" th:field="*{username}">
+			<p  th:errors="*{username}"></p>
+		</div>
+		<div>
+			<label th:text="#{user.password}"></label>
+			<input type="password" name="password" th:value="${user.getPassword()}">
+			<p  th:errors="*{password}"></p>
+		</div>
+		<div>
+	 	  	<label th:text="#{user.avatar}"></label>
+	 	  	
+	 	  	<input type="file" th:field="*{file}" accept="image/*" >
+	 	 </div>
+		<div>
+			<button type="submit" th:text="#{function.edit}"></button>
+		</div>
+	</form>
+</body>
+</html>
