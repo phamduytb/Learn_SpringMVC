@@ -3,6 +3,10 @@
 	<title>Hello Spring</title>
 </head>
 <body>
-	<h1>Hello Spring</h1>
+	<form th:action="@{/hello}" method="post">
+		<input type="date" name="inputDate" th:value="${#dates.format(date, 'yyyy-MM-dd')}">
+		<button type="submit">Submit</button>
+	</form>
+	
 </body>
 </html>

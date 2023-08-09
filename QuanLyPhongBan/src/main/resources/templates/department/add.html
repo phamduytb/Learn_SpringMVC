@@ -1,0 +1,18 @@
+<html>
+<head>
+	<title>Create Department</title>
+</head>
+<body>
+	<form th:action="@{/department/add}" method="post" th:object="${departmentDTO}">
+		
+		<div>
+			<label th:text="#{department.name}"></label>
+			<input type="text" th:field="*{name}">
+			<p  th:errors="*{name}"></p>
+		</div>
+		<div>
+			<button type="submit" th:text="#{function.submit}"></button>
+		</div>
+	</form>
+</body>
+</html>

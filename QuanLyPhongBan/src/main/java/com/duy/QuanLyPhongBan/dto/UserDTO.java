@@ -28,4 +28,7 @@ public class UserDTO {
 	@NotBlank(message = "{not.blank}")
 	private String password;
 	
+	//many to one
+	@NotBlank(message = "{not.blank}")
+	private DepartmentDTO department;
 }

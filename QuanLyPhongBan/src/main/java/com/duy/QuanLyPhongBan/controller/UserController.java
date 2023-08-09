@@ -41,14 +41,16 @@ public class UserController {
 	public String getUsers(Model model, @ModelAttribute UserSearchDTO searchDTO) {
 		PageDTO<UserDTO> pageDTO = null;
 		
-		if (StringUtils.hasText(searchDTO.getName()) && !StringUtils.hasText(searchDTO.getUsername())) {
+		if (StringUtils.hasText(searchDTO.getName()) && !searchDTO.getName().equals("null") && !StringUtils.hasText(searchDTO.getUsername())) {
 			pageDTO = userService.searchByName(searchDTO);
-		} else if (!StringUtils.hasText(searchDTO.getName()) && StringUtils.hasText(searchDTO.getUsername())) {
+		} else if (!StringUtils.hasText(searchDTO.getName()) && StringUtils.hasText(searchDTO.getUsername()) && !searchDTO.getUsername().equals("null")) {
 			pageDTO = userService.searchByUsername(searchDTO);
 		} else if (StringUtils.hasText(searchDTO.getName()) && StringUtils.hasText(searchDTO.getUsername()) 
 				&& !searchDTO.getName().equals("null") && !searchDTO.getUsername().equals("null")) {
 			pageDTO = userService.searchByNameOrUsername(searchDTO);
 		} else {
+			searchDTO.setName(null);
+			searchDTO.setUsername(null);
 			pageDTO = userService.searchAllUser(searchDTO);
 		}
 		

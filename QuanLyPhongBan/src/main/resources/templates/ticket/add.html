@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title>Create Ticket</title>
+</head>
+<body>
+	<form th:action="@{/ticket/add}" method="post" th:object="${ticketDTO}">
+		
+		<div>
+			<label th:text="#{ticket.clientName}"></label>
+			<input type="text" th:field="*{clientName}">
+			<p  th:errors="*{clientName}"></p>
+		</div>
+		<div>
+			<label th:text="#{ticket.phoneNumber}"></label>
+			<input type="text" th:field="*{phoneNumber}">
+			<p  th:errors="*{phoneNumber}"></p>
+		</div>
+		<div>
+			<label th:text="#{ticket.feeback}"></label>
+			<textarea rows="" cols="" th:field="*{feedback}"></textarea>
+			<p  th:errors="*{feedback}"></p>
+		</div>
+		<div>
+			<label th:text="#{ticket.department}"></label>
+			<select th:field="*{department.id}">
+				<option th:each="d : ${departmentDTOs}" th:value="${d.id}" th:text="${d.name}"></option>
+			</select>	
+		</div>
+		<div>
+			<button type="submit" th:text="#{function.submit}"></button>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Ticket List</title>
+</head>
+<body>
+	<button><a th:href="@{/ticket/add}" th:text="#{ticket.add}"></a></button>
+	<form th:action="@{/ticket/list}" th:object="${searchDTO}" method="get">
+		<label th:text="#{ticket.enterPhone}"></label>
+		<input type="text" name = "phoneNumber" th:field="*{phoneNumber}">	
+			
+		<label th:text="#{label.startDate}"></label>
+		<input  type="date" th:field="*{startDate}">
+		
+		
+		<label th:text="#{label.endDate}"></label>
+		<input  type="date"  th:field="*{endDate}">
+		
+		<label th:text="#{ticket.department}"></label>
+		<select th:field="*{departmentId}">
+			<option th:text="#{ticket.choiceDepartment}" value="0"></option>>
+			<option th:each="d : ${departmentDTOs}" th:value="${d.id}" th:text="${d.name}"></option>
+		</select>
+	
+		<label for = "size" th:text="#{label.record}"> </label>
+		<select th:field="*{size}" id = "size">
+			<option value="5">5</option>
+			<option value="10">10</option>
+		</select>
+			
+		<label for = "sortField" th:text="#{label.sortField}"></label>
+		<select th:field="*{sortField}" id = "sortField" >
+			<option  value="id">id</option>
+			<option  value="clientName">Client Name</option>
+			<option  value="feedbackDate">Feedback Date</option>
+		</select>
+		
+		<button type="submit" th:text="#{function.search}"></button>
+	</form>
+	<table border="1" style="width: 100%">
+		<thead>
+			<th th:text="#{ticket.id}"></th>
+			<th th:text="#{ticket.clientName}"></th>
+			<th th:text="#{ticket.phoneNumber}"></th>
+		    <th th:text="#{ticket.feeback}"></th>
+		    <th th:text="#{ticket.department}"></th>
+		    <th th:text="#{ticket.createdAt}"></th>
+		    <th th:text="#{ticket.status}"></th>
+		    <th th:text="#{ticket.response}"></th>
+		    <th th:text="#{ticket.detail}"></th>
+		</thead>
+		  <tbody>
+		  	 <tr th:each="ticket: ${pageDTO}">
+		  	 	<td th:text="${ticket.id}"></td>
+		  	 	<td th:text="${ticket.clientName}"></td>
+		  	 	<td th:text="${ticket.phoneNumber}"></td>
+		  	 	<td th:text="${ticket.feedback}"></td>
+		  	 	<td th:text="${ticket.department.name}"></td>
+		  	 	<td th:text="${#dates.format(ticket.feedbackDate, 'dd/MM/yyyy')}"></td>
+				<td th:if="${ticket.status == false}" th:text="#{ticket.status.false}"></td>
+  				<td th:unless="${ticket.status == false}" th:text="#{ticket.status.true}"></td>
+		  	 	<td><a th:href="@{'/ticket/response?id=' + ${ticket.id}}" th:text="#{ticket.response}"></a></td>
+		  	 	<td><a th:href="@{'/ticket/detail?id=' + ${ticket.id}}" th:text="#{ticket.detail}"></a></td>
+		  	 </tr>
+		  </tbody>
+	</table>
+	<div class="footer" style="display: flex;  margin-top: 15px; align-items: center; justify-content: space-between;">
+		<div style="margin-top: 15px">
+			 	Tổng <span th:text="${totalElements}"></span> bản ghi trong <span th:text="${totalPages}"></span> trang
+		</div>
+		<div>
+			
+		</div>
+		<div th:if="${totalPages > 1}">
+			<button th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+            	<a th:if="${searchDTO.departmentId == null}" th:href="@{'/ticket/list?currentPage=' + ${pageNumber} + '&size=' + ${searchDTO.size}
+			+ '&phoneNumber=' + ${searchDTO.phoneNumber} + '&startDate=' + ${searchDTO.startDate} + '&endtDate=' + ${searchDTO.endDate} + '&departmentId=' + 0 + '&sortField=' + ${searchDTO.sortField}}" 
+            	th:text="${pageNumber + 1}">
+            	</a>
+            	<a th:unless="${searchDTO.departmentId == null}" th:href="@{'/ticket/list?currentPage=' + ${pageNumber} + '&size=' + ${searchDTO.size}
+			+ '&phoneNumber=' + ${searchDTO.phoneNumber} + '&startDate=' + ${searchDTO.startDate} + '&endtDate=' + ${searchDTO.endDate} + '&departmentId=' + ${searchDTO.departmentId} + '&sortField=' + ${searchDTO.sortField}}" 
+            	th:text="${pageNumber + 1}">
+            	</a>
+        	</button>
+		</div>
+	</div>
+</body>
+</html>

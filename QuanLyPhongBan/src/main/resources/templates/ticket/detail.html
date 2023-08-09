@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>Response Ticket</title>
+</head>
+<body>
+	<form th:action="@{/ticket/detail}" method="get" th:object="${ticketDTO}">
+		<div>
+			<label th:text="#{ticket.id}"></label>
+			<input type="text" th:field="*{id}" readonly="readonly">
+		</div>
+		<div>
+			<label th:text="#{ticket.clientName}"></label>
+			<input type="text" th:field="*{clientName}" readonly="readonly">
+		</div>
+		<div>
+			<label th:text="#{ticket.phoneNumber}"></label>
+			<input type="text" th:field="*{phoneNumber}" readonly="readonly">
+			
+		</div>
+		<div>
+			<label th:text="#{ticket.feeback}"></label>
+			<textarea rows="" cols="" th:field="*{feedback}" readonly="readonly"></textarea>
+		</div>
+		<div>
+			<label th:text="#{ticket.createdAt}"></label>
+			<input type="text" th:value="${#dates.format(ticketDTO.feedbackDate, 'dd/MM/yyyy')}" readonly="readonly">
+		</div>
+		<div>
+			<label th:text="#{ticket.department}"></label>
+			<input type="text" th:field="*{department.name}" readonly="readonly">
+		</div>
+		<div>
+			<label th:text="#{ticket.response}"></label>
+			<textarea rows="" cols="" th:field="*{response}" readonly="readonly"></textarea>
+		</div>
+		<div>
+			<label th:text="#{ticket.responseDate}"></label>
+			<input th:if="*{status == true}" type="text" th:value="${#dates.format(ticketDTO.responseDate, 'dd/MM/yyyy')}" readonly="readonly">
+		</div>
+		<div>
+			<label th:text="#{label.status}"></label>
+			 <b th:if="*{status == true}" th:text="#{ticket.status.true}"></b>
+			 <b th:unless="*{status == true}" th:text="#{ticket.status.false}"></b>
+		</div>
+		
+	</form>
+</body>
+</html>
